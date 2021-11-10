@@ -65,9 +65,9 @@ export class ListEmpleadosComponent implements OnInit {
   editAndSave() {
     console.log(this.form.value);
     this.viewError = true
-    this.listEmpleados = []
     if (this.action === 1) {
       if (this.form.valid) {
+        this.listEmpleados = []
         var obj = this._listEmpleadosService.edit(this.form.value, this.index)
         //se agrega este segundo por la velocidad de mapeo es ta rapida q no refresca el obj con un servicio normal y una peticion hhttp no pasaria 
         setTimeout(() => {
@@ -77,6 +77,7 @@ export class ListEmpleadosComponent implements OnInit {
       }
     } else if (this.action == 3) {
       if (this.form.valid) {
+        this.listEmpleados = []
         var cont = 0
         this.form.controls['id'].setValue(cont++)
         var objNew = this._listEmpleadosService.add(this.form.value, this.index)
