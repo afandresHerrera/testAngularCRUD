@@ -1,0 +1,188 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <span class="h3">listado de empleados</span>
+
+            <div class="container">
+
+                <div class="filter-form mt-5">
+                    <div class="card-filter">
+                        <p>Filtros</p>
+                    </div>
+                    <form [formGroup]="formSearch" class="p-2">
+                        <div class="form-row">
+                            <div class="row">
+                                <div class="col-12 col-sm-12 col-md-12 mt-3">
+                                    <label for="buscar" class="my-label mt-2">buscar</label>
+                                    <input type="text" class="form-control" autocomplete="off" id="buscar"
+                                        placeholder="buscar..." formControlName='buscar'>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="form-row mt-3">
+                            <div class="filter-button col-12 text-center">
+                                <button class="btn btn-success " style="float: right; margin-left: 3px;" type="submit">
+                                    <i class="icofont-search"></i>
+                                    Filtrar
+                                </button>
+                                <input class="btn btn-danger" style="float: right;" type="button"
+                                    (click)="cleanFilter()" value="Limpiar">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="container-fix shadow rounded">
+            <div class="col-md-12">
+                <button type="button" style="float: right; margin-right: 10px;" class="btn btn-primary"
+                    data-toggle="modal" data-target="#exampleModal"
+                    (click)="edit({}, 0, 'Agregar Registro', 3)">Agregar</button>
+            </div>
+
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Activo</th>
+                        <th>Acciones</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let item of this.listEmpleados | filter: formSearch.controls['buscar'].value; index as i">
+                        <th scope="row">{{item.usuario}}</th>
+                        <td>{{item.Email}}</td>
+                        <td>{{item.nombres}}</td>
+                        <td>{{item.apellidos}}</td>
+                        <td>{{item.Activo}}</td>
+                        <td>
+                            <div class="d-flex jstify-content-center">
+
+                                <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModal"
+                                    (click)="edit(item, i, 'Editar Registro', 1)">editar</button>
+                                <button style="margin-left: 3px;" type="button" class="btn btn-secondary"
+                                    data-toggle="modal" data-target="#exampleModal"
+                                    (click)="edit(item, i, 'Ver Registro', 2)">ver</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <!-- Button trigger modal -->
+        <button type="button" id="btnClose" class="btn btn-primary d-none" data-toggle="modal"
+            data-target="#exampleModal">
+            Launch demo modal
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">{{modalTitle}}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+
+                            <div class="filter-form mt-5">
+
+                                <form [formGroup]="form">
+                                    <div class="form-row">
+                                        <div class="row">
+                                            <div class="col-12 col-sm-6 col-md-4 ">
+                                                <label for="Email" class="my-label mt-2">Email</label>
+                                                <input type="text" class="form-control" autocomplete="off" id="Email"
+                                                    placeholder="Email" formControlName='Email'>
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form['controls']['Email'].errors?.['required']&& viewError ">
+                                                    *Este campo es requerido
+                                                </span>
+
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form.controls['Email'].errors?.['email']">
+                                                    *Ingrese un correo valido
+                                                </span>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-4 ">
+                                                <label for="nombres" class="my-label mt-2">Nombres</label>
+                                                <input type="text" class="form-control" autocomplete="off" id="nombres"
+                                                    placeholder="nombres" formControlName='nombres'>
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form['controls']['nombres'].errors?.['required'] && viewError ">
+                                                    *Este campo es requerido
+                                                </span>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-4 ">
+                                                <label for="apellidos" class="my-label mt-2">Apellidos</label>
+                                                <input type="text" class="form-control" autocomplete="off"
+                                                    id="apellidos" placeholder="Apellidos" formControlName='apellidos'>
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form['controls']['apellidos'].errors?.['required']&& viewError ">
+                                                    *Este campo es requerido
+                                                </span>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-4 mt-3">
+                                                <label for="usuario" class="my-label mt-2">Usuario</label>
+                                                <input type="text" class="form-control" autocomplete="off" id="usuario"
+                                                    placeholder="Usuario" formControlName='usuario'>
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form['controls']['usuario'].errors?.['required'] && viewError">
+                                                    *Este campo es requerido
+                                                </span>
+                                            </div>
+
+                                            <div class="col-12 col-sm-6 col-md-4 mt-3">
+
+                                                <div class="form-group mt-3">
+                                                    <label for="pagar"
+                                                        *ngIf="!form.controls['Activo']?.value">Inactivo</label>
+                                                    <label for="pagar"
+                                                        *ngIf="form.controls['Activo']?.value">Activo</label>
+                                                    <div>
+                                                        <label class="switch">
+                                                            <input id="pagar" type="checkbox" formControlName='Activo'>
+                                                            <span class="slider round"></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <span class="text-danger position-absolute"
+                                                    *ngIf="form['controls']['usuario'].errors?.['required'] && viewError">
+                                                    *Este campo es requerido
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div *ngIf="action!=2">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                            <button type="button" (click)="editAndSave()" class="btn btn-primary"
+                                style="margin-left: 3px;">Guardar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
