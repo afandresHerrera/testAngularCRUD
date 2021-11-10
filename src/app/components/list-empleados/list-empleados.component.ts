@@ -76,14 +76,16 @@ export class ListEmpleadosComponent implements OnInit {
         document.getElementById('btnClose')?.click()
       }
     } else if (this.action == 3) {
-      var cont=0
-      this.form.controls['id'].setValue(cont++)
-      var objNew = this._listEmpleadosService.add(this.form.value, this.index)
-      // objNew.push(this.form.value)
-      setTimeout(() => {
-        this.listEmpleados=objNew
-      }, 1000);
-      document.getElementById('btnClose')?.click()
+      if (this.form.valid) {
+        var cont = 0
+        this.form.controls['id'].setValue(cont++)
+        var objNew = this._listEmpleadosService.add(this.form.value, this.index)
+        // objNew.push(this.form.value)
+        setTimeout(() => {
+          this.listEmpleados = objNew
+        }, 1000);
+        document.getElementById('btnClose')?.click()
+      }
     }
 
   }
